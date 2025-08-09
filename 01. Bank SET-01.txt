@@ -1,0 +1,35 @@
+1. Consider the Bank database, which consists of the following tables where the primary keys are underlined.
+
+Branch (BranchName, BranchCity, Assets)
+
+Customer (CustomerlD, CustomerName, CustomerStreet, CustomerCity) Account (AccountNumber, BranchName, Balance) Loan (Loan Number, BranchName, Amount) Depositor (CustomerID, AccountNumber)
+
+Borrower (CustomerID, Loan Number)
+
+Write SQL queries for the following requirements.
+
+I. Retrieve distinct customers who have either an account or a loan.
+ANS :   SELECT DISTINCT CustomerID
+        FROM Depositor
+        UNION
+        SELECT DISTINCT CustomerID
+        FROM Borrower;
+
+
+II. Retrieve the branch with the maximum number of accounts.
+ANS :   SELECT BranchName
+        FROM Account
+        GROUP BY BranchName
+        ORDER BY COUNT(AccountNumber) DESC
+        LIMIT 1;
+
+III. Find the maximum loan amount issued in cach branch.
+ANS :   SELECT BranchName, MAX(Amount) AS MaxLoan
+        FROM Loan
+        GROUP BY BranchName;
+
+IV. Find customers whose names start with 'A'.
+ANS :    SELECT * FROM Customer
+        WHERE CustomerName LIKE 'A%';
+
+

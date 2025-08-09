@@ -1,0 +1,42 @@
+2. Consider the Employce database, which consists of the following tables where the primary keys are underlined.
+
+employee (EmployeeID, EmployeeName, Street, City)
+
+works (EmploveelD, CompanyName, Salary)
+
+company (CompanyName, City)
+
+manages (EmploveelD, ManagerlD)
+
+Write SQL queries for the following requirements.
+
+I. Find the company that has the most employees.
+ANS :   SELECT CompanyName
+        FROM works
+        GROUP BY CompanyName
+        ORDER BY COUNT(EmployeeID) DESC
+        LIMIT 1;
+
+
+II. Find employees who do not have a manager.
+ANS : SELECT EmployeeID, EmployeeName
+        FROM employee
+        WHERE EmployeeID NOT IN (
+          SELECT EmploveelD FROM manages
+        );
+
+
+III Find the second highest salary among employees.
+ANS :   ELECT MAX(Salary) AS SecondHighestSalary
+        FROM works
+        WHERE Salary < (
+          SELECT MAX(Salary) FROM works
+        );
+
+
+IV. find all employees who live in Dhaka city, but their company is not in Dhaka.
+ANS :   SELECT e.EmployeeID, e.EmployeeName
+        FROM employee e
+        JOIN works w ON e.EmployeeID = w.EmploveelD
+        JOIN company c ON w.CompanyName = c.CompanyName
+        WHERE e.City = 'Dhaka' AND c.City <> 'Dhaka';
