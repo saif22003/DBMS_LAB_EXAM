@@ -1,0 +1,29 @@
+5. Consider the Employee database, which consists of the following tables where the primary keys are underlined.
+
+employee (EmployeeID, EmployeeName, Street, City) works (EmploveeID, CompanyName, Salary) company (CompanyName, City)
+
+manages (EmploveeID, ManagerID)
+
+Write SQL queries for the following requirements.
+
+I. Find companies with more than 5 employees.
+ANS:    SELECT CompanyName, COUNT(EmployeeID) AS EmployeeCount
+        FROM works
+        GROUP BY CompanyName
+        HAVING COUNT(EmployeeID) > 5;
+
+II. Give all employees of First Bank Corporation a 20% salary raise.
+ANS:    UPDATE works
+        SET Salary = Salary * 1.20
+        WHERE CompanyName = 'First Bank Corporation';
+
+
+III. Delete all records where an employee has no manager.
+ANS:    DELETE FROM manages
+        WHERE ManagerID IS NULL;
+
+IV. Assign a new manager to employees who currently have no manager.
+ANS:    UPDATE manages
+        SET ManagerID = 1
+        WHERE ManagerID IS NULL;
+
