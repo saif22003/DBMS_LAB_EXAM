@@ -1,0 +1,52 @@
+Consider the Bank database, which consists of the following tables where the primary keys are underlined.
+
+Branch (BranchName, BranchCity, Assets)
+
+Customer (CustomerID, CustomerName, CustomerStreet, CustomerCity)
+
+SavingAccount (AccountNumber, BranchName, Balance)
+
+Loan (LoanNumber, BranchName, Amount)
+
+Depositor (CustomerID, AccountNumber)
+
+Borrower (CustomerID, LoanNumber)
+
+Write SQL queries for the following requirements.
+
+I. Delete all loan amount between 5000/- and 15000/-.
+ANS:    DELETE FROM Loan
+        WHERE Amount BETWEEN 5000 AND 15000;
+
+
+II. Find branches that have no accounts.
+ANS:    select BranchName
+        from Branch
+        where BranchName not in (
+            select BranchName
+            from SavingAccount
+        ) ;
+
+
+III. Find branches where total loan amount is greater than 50,000.
+ANS:    SELECT BranchName, SUM(Amount) AS TotalLoan
+        FROM Loan
+        GROUP BY BranchName
+        HAVING SUM(Amount) > 50000;
+
+
+IV. Deduct 3% service charge from saving account balance that have both loan and a
+saving account other wise deduct 5% service charge from saving account balance.
+ANS:
+ UPDATE SavingAccount
+SET Balance = Balance - (Balance * 
+    CASE
+        WHEN AccountNumber IN (
+            SELECT sa.AccountNumber
+            FROM SavingAccount sa
+            JOIN Depositor d ON sa.AccountNumber = d.AccountNumber
+            JOIN Borrower bo ON d.CustomerID = bo.CustomerID
+        ) THEN 0.03
+        ELSE 0.05
+    END
+);

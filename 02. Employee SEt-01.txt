@@ -19,10 +19,10 @@ ANS :   SELECT CompanyName, COUNT(EmployeeID) AS EmployeeCount
 
 
 II. Find employees who do not have a manager.
-ANS :   SELECT e.employeeid, e.employeename
+ANS :   SELECT e.EmployeeID, e.EmployeeName
         FROM employee e
-        JOIN manages m ON e.employeeid = m.employeeid
-        WHERE m.managerid IS NULL;
+        JOIN manages m ON e.EmployeeID = m.EmloyeeID
+        WHERE m.ManagerID IS NULL;
 
 III Find the second highest salary among employees.
 ANS :   SELECT EmployeeID, MAX(Salary) AS SecondHighestSalary
